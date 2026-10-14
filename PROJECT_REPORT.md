@@ -1,16 +1,8 @@
-# PROJECT REPORT
-
----
-
-## 1. Title Page
-
-<br>
+# ACADEMIC PROJECT REPORT
 
 # **Exploratory Data Analysis and LSTM-Based Time-Series Forecasting Using Multivariate and Univariate Data**
 
 ### *A Deep Learning Case Study on Urban Air Quality Dynamics and Atmospheric Particulate Matter ($\text{PM}_{2.5}$) Modeling*
-
-<br>
 
 | **Field** | **Details** |
 | :--- | :--- |
@@ -18,16 +10,12 @@
 | **Student Name** | **Jaiwant Karrun SA** |
 | **Roll Number** | **24AD048** |
 | **Department** | **AD** |
-| **Year** | **3rd Year** |
+| **Academic Year** | **3rd Year** |
 | **Date of Submission** | **15/10/2026** |
-
-<br>
 
 ---
 
-<div style="page-break-after: always;"></div>
-
-## 2. Abstract
+## 1. Abstract
 
 **Word Count: 135 words**
 
@@ -35,9 +23,9 @@ Atmospheric particulate matter ($\text{PM}_{2.5}$) poses severe cardiovascular a
 
 ---
 
-## 3. Introduction & Objective
+## 2. Introduction and Objectives
 
-### 3.1 Introduction
+### 2.1 Introduction
 Fine particulate matter with an aerodynamic diameter of 2.5 micrometers or smaller ($\text{PM}_{2.5}$) represents one of the most hazardous urban airborne pollutants. Due to its microscopic size, $\text{PM}_{2.5}$ remains suspended in ambient air for extended durations, penetrating deeply into human bronchioles and alveoli, and crossing the alveolar-capillary barrier into the cardiovascular system. Chronic and acute exposure to elevated $\text{PM}_{2.5}$ levels is clinically linked to asthma exacerbation, chronic obstructive pulmonary disease (COPD), ischemic heart disease, stroke, and premature mortality.
 
 Urban air quality is not governed solely by static emission sources such as vehicular traffic, industrial factories, and fossil-fuel power plants. Rather, ambient pollutant concentrations fluctuate dynamically through non-linear interactions with local and regional atmospheric conditions:
@@ -47,7 +35,7 @@ Urban air quality is not governed solely by static emission sources such as vehi
 
 Standard classical linear regression and autoregressive moving average (ARIMA/SARIMAX) models often fail to capture these non-linear meteorological couplings, long-term memory effects, and sudden episodic spikes. Deep learning architectures, specifically **Long Short-Term Memory (LSTM)** recurrent neural networks, are purpose-built to maintain temporal context and model complex non-linear multi-variate dependencies without succumbing to the vanishing gradient dilemma.
 
-### 3.2 Objectives
+### 2.2 Objectives
 The primary objectives of this investigation are:
 1. **Systematic Schema & Data Integrity Audit:** Perform programmatic verification of the dataset hierarchy, data types, null counts, duplicate records, and observation frequency monotonicity.
 2. **Comprehensive Exploratory Data Analysis (EDA):** Quantify the empirical probability distributions, investigate seasonal winter spikes, analyze rolling trends and volatility envelopes, and characterize meteorological correlations.
@@ -58,9 +46,9 @@ The primary objectives of this investigation are:
 
 ---
 
-## 4. Dataset Description
+## 3. Dataset Description
 
-### 4.1 Data Source and Physical Provenance
+### 3.1 Data Source and Physical Provenance
 The dataset utilized in this investigation is the benchmark **Beijing PM2.5 Hourly Air Quality and Meteorological Dataset**, curated by researchers from Peking University (Liang et al., 2015; Zhang et al., 2017) and archived in the **UCI Machine Learning Repository** and **Kaggle**:
 - **Dataset File:** `LSTM-Multivariate_pollution.csv`
 - **Location of Sensor:** US Embassy in Beijing, China, collocated with surface meteorological observations from the Beijing Capital International Airport station.
@@ -69,7 +57,7 @@ The dataset utilized in this investigation is the benchmark **Beijing PM2.5 Hour
 - **Total Record Count:** Exactly 43,800 hourly rows.
 - **In-Memory Size:** Approximately 3.35 MB.
 
-### 4.2 Feature Fields & Schema Definition
+### 3.2 Feature Fields and Schema Definition
 The dataset consists of 9 base features: 1 datetime index, 1 target variable (`pollution`), and 7 meteorological predictors.
 
 | Column Name | Technical Data Type | Physical Definition | Measurement Unit | Variable Role |
@@ -84,7 +72,7 @@ The dataset consists of 9 base features: 1 datetime index, 1 target variable (`p
 | **`snow`** | `int64` / `float64` | Cumulative precipitation hours as snow | $\text{hours}$ | Precipitation Covariate |
 | **`rain`** | `int64` / `float64` | Cumulative precipitation hours as rain | $\text{hours}$ | Precipitation Covariate |
 
-### 4.3 Summary Statistics and Data Quality Audit
+### 3.3 Summary Statistics and Data Quality Audit
 A programmatic audit across all 43,800 records established the following:
 - **Missing / Null Values:** Exactly 0 missing values across all columns.
 - **Duplicate Observations:** Exactly 0 duplicate rows.
@@ -110,9 +98,9 @@ Categorical distribution of the prevailing surface wind direction (`wnd_dir`):
 
 ---
 
-## 5. EDA and Preprocessing
+## 4. EDA and Preprocessing
 
-### 5.1 Preprocessing Methods & Zero-Leakage Protocol
+### 4.1 Preprocessing Methods and Zero-Leakage Protocol
 In temporal sequence modeling, applying standard cross-sectional techniques such as random train-test splitting or global normalization introduces severe **data leakage**. If normalization parameters (minimum and maximum bounds) are computed across the full dataset prior to splitting, information regarding future distribution shifts, peak values, and variance leaks into the training domain. This results in overly optimistic validation scores that degrade drastically in real-world deployment.
 
 To establish a zero-leakage pipeline:
@@ -128,7 +116,7 @@ To establish a zero-leakage pipeline:
    Validation and testing sets were then transformed using these fitted training parameters. A dedicated single-feature `target_scaler` was simultaneously fitted on the training target column to ensure exact inverse transformations from normalized space to original $\mu\text{g/m}^3$ physical units.
 5. **Causal Sliding Window Formulation (Many-to-One):** Tensors were generated using a causal sliding window of length $T=24$ hours (representing one full diurnal cycle). For any time step $t$, the input tensor $X_t \in \mathbb{R}^{24 \times 11}$ contains historical observations from $t-23$ to $t$, mapped to the scalar target $y_t = \text{pollution}_{t+1} \in \mathbb{R}^1$.
 
-### 5.2 EDA Key Insights
+### 4.2 EDA Key Insights
 The exploratory analysis revealed crucial domain findings:
 - **Strong Positive Skewness:** The distribution of $\text{PM}_{2.5}$ concentration is strongly right-skewed ($\gamma = 1.815$), with a long heavy tail reaching $994\,\mu\text{g/m}^3$. The median ($68\,\mu\text{g/m}^3$) is significantly lower than the mean ($94.01\,\mu\text{g/m}^3$).
 - **Pronounced Winter Seasonality:** $\text{PM}_{2.5}$ exhibits periodic spikes during late autumn and winter (November–February), with recurring hazardous episodes exceeding $400$–$800\,\mu\text{g/m}^3$. This correlates with coal-fired municipal central heating, cold atmospheric stagnation, and frequent ground-level temperature inversions.
@@ -139,7 +127,7 @@ The exploratory analysis revealed crucial domain findings:
 
 ---
 
-## 6. Data Visualization (7 Diagnostic Visuals with Detailed Explanation)
+## 5. Data Visualization
 
 Below are the 7 publication-grade exploratory visualizations generated and exported to `outputs/plots/`.
 
@@ -187,9 +175,9 @@ Below are the 7 publication-grade exploratory visualizations generated and expor
 
 ---
 
-## 7. Deep Learning Model
+## 6. Deep Learning Model
 
-### 7.1 Architecture Design
+### 6.1 Architecture Design
 The forecasting architecture is formulated as a deep recurrent neural network implemented in TensorFlow/Keras. Long Short-Term Memory (LSTM) cells are selected because they mitigate the vanishing gradient problem inherent in standard RNNs by maintaining an internal **Cell State** ($C_t$) regulated by three non-linear gates:
 1. **Forget Gate ($f_t$):** Discards uninformative historical information:
    $$f_t = \sigma(W_f \cdot [h_{t-1}, x_t] + b_f)$$
@@ -216,7 +204,7 @@ The forecasting architecture is formulated as a deep recurrent neural network im
 - **Trainable Parameters:** 21,569 (100%)
 - **Non-Trainable Parameters:** 0
 
-### 7.2 Training Parameters
+### 6.2 Training Parameters
 - **Objective Loss Function:** Mean Squared Error ($\text{MSE}$):
   $$\mathcal{L}_{\text{MSE}} = \frac{1}{N} \sum_{i=1}^N (y_i - \hat{y}_i)^2$$
 - **Monitoring Metric:** Mean Absolute Error ($\text{MAE}$).
@@ -226,7 +214,7 @@ The forecasting architecture is formulated as a deep recurrent neural network im
 - **Maximum Epochs:** 8 epochs.
 - **Regularization Strategy:** Early Stopping configured with `monitor='val_loss'`, `patience=3`, and `restore_best_weights=True` to avoid overfitting on the training partition.
 
-### 7.3 Hyperparameter Tuning and Optimization Strategy
+### 6.3 Hyperparameter Tuning and Optimization Strategy
 A systematic hyperparameter search was conducted strictly across the chronological **Validation Partition** (6,570 samples) to evaluate look-back sequence lengths ($T$), recurrent capacities, and learning rates without touching the held-out test set:
 
 | Config ID | Description | Look-Back ($T$) | LSTM Units | Learning Rate ($\eta$) | Validation MSE Loss | Validation MAE |
@@ -241,9 +229,9 @@ A systematic hyperparameter search was conducted strictly across the chronologic
 
 ---
 
-## 8. Result Visualization & Interpretation
+## 7. Results Visualization and Interpretation
 
-### 8.1 Quantitative Model Evaluation Summary
+### 7.1 Quantitative Model Evaluation Summary
 The optimal model was evaluated on the held-out test partition (April 3, 2014 to December 31, 2014; 6,546 sliding test sequences) **exactly once**. All predictions were mapped back to original physical units ($\mu\text{g/m}^3$) via `target_scaler.inverse_transform()`:
 
 | Model Specification | Input Features | Look-Back ($T$) | Test MAE ($\mu\text{g/m}^3$) | Test MSE | Test RMSE ($\mu\text{g/m}^3$) | Test $R^2$ Score |
@@ -252,7 +240,7 @@ The optimal model was evaluated on the held-out test partition (April 3, 2014 to
 | **Univariate LSTM (Baseline)** | 1 feature ($\text{PM}_{2.5}$ only) | 24 hours | 11.861 | 503.435 | 22.437 | 0.9190 |
 | **Ablated LSTM (Pollution + Wind Speed)**| 2 features ($\text{PM}_{2.5}$ + Wind) | 24 hours | 12.350 | 520.296 | 22.810 | 0.9162 |
 
-### 8.2 Evaluation Metrics & Mathematical Definitions
+### 7.2 Evaluation Metrics and Mathematical Definitions
 1. **Mean Absolute Error (MAE):** Average magnitude of absolute prediction errors in original physical units:
    $$\text{MAE} = \frac{1}{N} \sum_{i=1}^N |y_i - \hat{y}_i| = 12.069\,\mu\text{g/m}^3$$
 2. **Root Mean Squared Error (RMSE):** Square root of the mean squared error, sensitive to large outlier deviations:
@@ -260,7 +248,7 @@ The optimal model was evaluated on the held-out test partition (April 3, 2014 to
 3. **Coefficient of Determination ($R^2$ Score):** Fraction of target variance explained by the model relative to a mean baseline:
    $$R^2 = 1 - \frac{\sum_{i=1}^N (y_i - \hat{y}_i)^2}{\sum_{i=1}^N (y_i - \bar{y})^2} = 0.9207 \quad (92.07\%)$$
 
-### 8.3 Contextual Note on Accuracy, AUC, and ROC for Regression vs. Classification
+### 7.3 Accuracy, AUC, and ROC Analysis Context
 In time-series machine learning, a clear distinction must be made between continuous regression metrics and discrete classification metrics:
 - **Continuous Regression Metrics:** Because $\text{PM}_{2.5}$ concentration is continuous ($0$ to $994\,\mu\text{g/m}^3$), metrics like MAE, MSE, RMSE, and $R^2$ quantify forecasting precision across the full range.
 - **Classification AUC / ROC Equivalent (Thresholded Exceedance):** When framed as an early warning classification task for public health—such as predicting whether $\text{PM}_{2.5}$ will cross the National Hazardous Air Quality Standard ($75\,\mu\text{g/m}^3$)—the continuous predictions can be converted into binary event alerts ($\hat{y}_{t+1} \ge 75$). Thresholding the test predictions at $75\,\mu\text{g/m}^3$ yields:
@@ -272,7 +260,7 @@ In time-series machine learning, a clear distinction must be made between contin
 
 ---
 
-### 8.4 Result Visualizations & Analytical Interpretations
+### 7.4 Result Visualizations and Analytical Interpretations
 
 The evaluation figures generated and saved to `outputs/plots/` are presented below:
 
@@ -308,9 +296,9 @@ The evaluation figures generated and saved to `outputs/plots/` are presented bel
 
 ---
 
-## 9. Conclusion and Future Scope
+## 8. Conclusion and Future Scope
 
-### 9.1 Conclusion
+### 8.1 Academic Conclusion
 This project developed an end-to-end exploratory data analysis and deep recurrent forecasting pipeline for hourly urban $\text{PM}_{2.5}$ air pollution:
 1. **Data Integrity & Quality:** The 43,800-record Beijing dataset was verified to have zero missing values, zero duplicates, and uniform 1-hour sampling intervals.
 2. **Meteorological Insights:** Exploratory analysis confirmed that wind speed provides the strongest aerodynamic clearing effect ($r = -0.234$), while southeast winds and calm conditions exacerbate pollutant pooling against northern mountains.
@@ -318,13 +306,13 @@ This project developed an end-to-end exploratory data analysis and deep recurren
 4. **Predictive Performance:** The multivariate LSTM model attained strong predictive accuracy on the held-out test partition: $\text{MAE} = 12.069\,\mu\text{g/m}^3$, $\text{RMSE} = 22.195\,\mu\text{g/m}^3$, and $R^2 = 0.9207$, explaining over 92% of particulate variance.
 5. **Multivariate Value:** Integrating meteorological predictors outperformed univariate autoregression (lower RMSE and improved capture of sudden wind-driven clearances).
 
-### 9.2 Practical Limitations
+### 8.2 Practical Limitations
 1. **Deterministic Point Predictions:** The current model produces a single deterministic estimate without confidence intervals, which limits uncertainty quantification for high-risk regulatory decisions.
 2. **Phase Lag on Rapid Spike Onset:** Under extreme weather shifts, MSE-trained LSTMs can exhibit a 1-to-2 hour delay in responding to abrupt orders of magnitude changes.
 3. **Absence of Direct Source Emission Inventories:** The model relies on meteorological proxies without direct inputs for real-time vehicular traffic, industrial factory output, or seasonal heating curtailments.
 4. **Single-Step Horizon:** The primary formulation predicts $t+1$ hour; multi-step recursive forecasting over 24–72 hours suffers from accumulated error propagation.
 
-### 9.3 Future Scope
+### 8.3 Future Scope
 1. **Attention Mechanisms & Transformers:** Integrating temporal multi-head self-attention (e.g., Temporal Fusion Transformers or Informer) to weight past meteorological transitions dynamically.
 2. **Probabilistic & Quantile Forecasting:** Implementing Pinball / Quantile loss functions to predict 10th, 50th, and 90th percentile prediction bands.
 3. **Multi-Horizon Sequence-to-Sequence Models:** Developing encoder-decoder architectures with scheduled sampling to forecast continuous trajectories up to 48 hours ahead.
@@ -332,7 +320,7 @@ This project developed an end-to-end exploratory data analysis and deep recurren
 
 ---
 
-## 10. References
+## 9. References
 
 1. **Liang, X., Zou, T., Guo, B., Li, S., Zhang, H., Zhang, S., Huang, H., & Chen, S. X.** (2015). Assessing Beijing's PM2.5 pollution: severity, weather impact, APEC and summer holiday effects. *Proceedings of the Royal Society A: Mathematical, Physical and Engineering Sciences*, 471(2182), 20150257. https://doi.org/10.1098/rspa.2015.0257
 2. **Zhang, S., Guo, B., Dong, A., He, J., Xu, Z., & Chen, S. X.** (2017). Cautionary tales on air-quality improvement in Beijing. *Proceedings of the Royal Society A: Mathematical, Physical and Engineering Sciences*, 473(2205), 20170457. https://doi.org/10.1098/rspa.2017.0457
@@ -343,11 +331,11 @@ This project developed an end-to-end exploratory data analysis and deep recurren
 
 ---
 
-## 11. Appendix (Code Section)
+## 10. Appendix (Code Section)
 
 Below are the clean, executable core code modules utilized throughout this project.
 
-### Appendix A: Dataset Inspection & Quality Audit (`01_dataset_inspection.ipynb`)
+### 10.1 Dataset Inspection & Quality Audit (`01_dataset_inspection.ipynb`)
 ```python
 import os
 import glob
@@ -379,7 +367,7 @@ is_monotonic = df['datetime'].is_monotonic_increasing
 print(f"Chronological Monotonicity: {is_monotonic}")
 ```
 
-### Appendix B: Leakage-Free Preprocessing & Chronological Splitting (`02_eda_and_preprocessing.ipynb`)
+### 10.2 Leakage-Free Preprocessing & Chronological Splitting (`02_eda_and_preprocessing.ipynb`)
 ```python
 import joblib
 from sklearn.preprocessing import MinMaxScaler
@@ -417,7 +405,7 @@ joblib.dump(target_scaler, 'models/target_scaler.pkl')
 print("Successfully fitted and persisted zero-leakage scalers.")
 ```
 
-### Appendix C: Sliding-Window Generation & LSTM Model Construction (`03_lstm_forecasting.ipynb`)
+### 10.3 Sliding-Window Generation & LSTM Model Construction (`03_lstm_forecasting.ipynb`)
 ```python
 import tensorflow as tf
 from tensorflow.keras.models import Sequential
@@ -468,7 +456,7 @@ history = model.fit(
 model.save('models/best_lstm_model.keras')
 ```
 
-### Appendix D: Held-Out Test Evaluation & Metric Inversion
+### 10.4 Held-Out Test Evaluation & Metric Inversion
 ```python
 # 1. Predict on Held-Out Test Data
 y_pred_scaled = model.predict(X_test)
