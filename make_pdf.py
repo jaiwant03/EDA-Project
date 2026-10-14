@@ -647,9 +647,9 @@ def run_chrome_pdf(html_path, pdf_path, browser_exe):
             "--no-pdf-header-footer",
             html_url
         ]
-        res = subprocess.run(cmd, capture_output=True, text=True, timeout=120)
+        res = subprocess.run(cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, timeout=60)
         if res.returncode != 0:
-            raise RuntimeError(f"Browser print-to-pdf failed: {res.stderr}")
+            raise RuntimeError(f"Browser print-to-pdf failed with code {res.returncode}")
     finally:
         shutil.rmtree(scratch_dir, ignore_errors=True)
 
