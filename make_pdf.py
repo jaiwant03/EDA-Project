@@ -587,22 +587,24 @@ def generate_html_document(md_path, page_map=None):
 
 def run_chrome_pdf(html_path, pdf_path, browser_exe):
     html_url = "file:///" + os.path.abspath(html_path).replace("\\", "/")
-    scratch_dir = os.path.join(os.path.dirname(os.path.abspath(html_path)), "scratch_profile")
-    os.makedirs(scratch_dir, exist_ok=True)
-    cmd = [
-        browser_exe,
-        "--headless",
-        f"--user-data-dir={scratch_dir}",
-        "--disable-gpu",
-        "--no-sandbox",
-        "--allow-file-access-from-files",
-        f"--print-to-pdf={pdf_path}",
-        "--no-pdf-header-footer",
-        html_url
-    ]
-    res = subprocess.run(cmd, capture_output=True, text=True, timeout=120)
-    if res.returncode != 0:
-        raise RuntimeError(f"Browser print-to-pdf failed: {res.stderr}")
+    scratch_dir = tempfile.mkdtemp(prefix="chrome_pdf_profile_")
+    try:
+        cmd = [
+            browser_exe,
+            "--headless",
+            f"--user-data-dir={scratch_dir}",
+            "--disable-gpu",
+            "--no-sandbox",
+            "--allow-file-access-from-files",
+            f"--print-to-pdf={pdf_path}",
+            "--no-pdf-header-footer",
+            html_url
+        ]
+        res = subprocess.run(cmd, capture_output=True, text=True, timeout=120)
+        if res.returncode != 0:
+            raise RuntimeError(f"Browser print-to-pdf failed: {res.stderr}")
+    finally:
+        shutil.rmtree(scratch_dir, ignore_errors=True)
 
 def extract_section_page_numbers(pdf_path):
     reader = pypdf.PdfReader(pdf_path)
