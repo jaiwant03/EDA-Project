@@ -1,19 +1,9 @@
 import os
 import sys
 import re
-import base64
 import subprocess
 import markdown
-
-def encode_image_base64(filepath):
-    if os.path.exists(filepath):
-        with open(filepath, 'rb') as f:
-            data = f.read()
-            ext = os.path.splitext(filepath)[1].lower().replace('.', '')
-            if ext == 'jpg':
-                ext = 'jpeg'
-            return f"data:image/{ext};base64,{base64.b64encode(data).decode('utf-8')}"
-    return None
+import pypdf
 
 def clean_latex_math(text):
     # Normalize inline latex
@@ -149,8 +139,8 @@ def generate_html_from_markdown(md_path):
     # Convert to HTML using markdown library
     html_body = markdown.markdown(md_text, extensions=['tables', 'fenced_code', 'toc'])
 
-    # Embed figures directly into the HTML
-    plot_dir = os.path.join(os.path.dirname(md_path), 'outputs', 'plots')
+    # Embed figures directly into the HTML using local absolute file URLs
+    plot_dir = os.path.abspath(os.path.join(os.path.dirname(md_path), 'outputs', 'plots')).replace('\\', '/')
     
     def embed_image_replacer(match):
         full_match = match.group(0)
@@ -158,42 +148,40 @@ def generate_html_from_markdown(md_path):
         m = re.search(r'(\d\d_[a-zA-Z0-9_]+\.png)', full_match)
         if m:
             filename = m.group(1)
-            img_path = os.path.join(plot_dir, filename)
-            if os.path.exists(img_path):
-                b64_uri = encode_image_base64(img_path)
-                return f'''<div class="figure-container">
-                    <img class="report-img" src="{b64_uri}" alt="{filename}" />
-                    <p class="figure-caption"><strong>Figure:</strong> {filename}</p>
-                </div>'''
+            img_file_url = f"file:///{plot_dir}/{filename}"
+            return f'''<div class="figure-container">
+                <img class="report-img" src="{img_file_url}" alt="{filename}" />
+                <p class="figure-caption"><strong>Figure:</strong> {filename}</p>
+            </div>'''
         return full_match
 
     # Match list items or paragraphs containing saved plot / saved file links
     html_body = re.sub(r'<li><strong>(?:Saved File|Saved Plot):</strong>.*?</li>', embed_image_replacer, html_body, flags=re.DOTALL)
     html_body = re.sub(r'<p><strong>(?:Saved File|Saved Plot):</strong>.*?</p>', embed_image_replacer, html_body, flags=re.DOTALL)
 
-    # Replace Title Page Section with structured Cover Page
-    cover_match = re.search(r'(<h2 id="1-title-page">1\. Title Page</h2>.*?)(<div style="page-break-after: always;"></div>|<h2 id="2-abstract">2\. Abstract</h2>)', html_body, flags=re.DOTALL)
-    if cover_match:
-        cover_content = cover_match.group(1)
-        styled_cover = """
-        <div class="cover-page">
-            <div class="cover-badge">ACADEMIC PROJECT REPORT</div>
-            <h1 class="cover-title">Exploratory Data Analysis and LSTM-Based Time-Series Forecasting Using Multivariate and Univariate Data</h1>
-            <p class="cover-subtitle">A Deep Learning Case Study on Urban Air Quality Dynamics and Atmospheric Particulate Matter (PM<sub>2.5</sub>) Modeling</p>
-            
-            <div class="cover-details-card">
-                <table class="cover-table">
-                    <tr><td class="lbl">Project Title</td><td class="val"><strong>Exploratory Data Analysis and LSTM-Based Time-Series Forecasting Using Multivariate and Univariate Data</strong></td></tr>
-                    <tr><td class="lbl">Student Name</td><td class="val"><strong>Jaiwant Karrun SA</strong></td></tr>
-                    <tr><td class="lbl">Roll Number</td><td class="val"><strong>24AD048</strong></td></tr>
-                    <tr><td class="lbl">Department</td><td class="val"><strong>AD</strong></td></tr>
-                    <tr><td class="lbl">Academic Year</td><td class="val"><strong>3rd Year</strong></td></tr>
-                    <tr><td class="lbl">Date of Submission</td><td class="val"><strong>15/10/2026</strong></td></tr>
-                </table>
-            </div>
-        </div>
-        """
-        html_body = html_body.replace(cover_content, styled_cover)
+    # Replace Title Page Section with structured Cover Page (remove everything before Abstract)
+    styled_cover = """<div class="cover-page">
+    <div class="cover-badge">ACADEMIC PROJECT REPORT</div>
+    <h1 class="cover-title">Exploratory Data Analysis and LSTM-Based Time-Series Forecasting Using Multivariate and Univariate Data</h1>
+    <p class="cover-subtitle">A Deep Learning Case Study on Urban Air Quality Dynamics and Atmospheric Particulate Matter (PM<sub>2.5</sub>) Modeling</p>
+    
+    <div class="cover-details-card">
+        <table class="cover-table">
+            <tr><td class="lbl">Project Title</td><td class="val"><strong>Exploratory Data Analysis and LSTM-Based Time-Series Forecasting Using Multivariate and Univariate Data</strong></td></tr>
+            <tr><td class="lbl">Student Name</td><td class="val"><strong>Jaiwant Karrun SA</strong></td></tr>
+            <tr><td class="lbl">Roll Number</td><td class="val"><strong>24AD048</strong></td></tr>
+            <tr><td class="lbl">Department</td><td class="val"><strong>AD</strong></td></tr>
+            <tr><td class="lbl">Academic Year</td><td class="val"><strong>3rd Year</strong></td></tr>
+            <tr><td class="lbl">Date of Submission</td><td class="val"><strong>15/10/2026</strong></td></tr>
+        </table>
+    </div>
+</div>
+"""
+    # Replace from beginning of body up to "<h2 id="2-abstract">2. Abstract</h2>"
+    html_body = re.sub(r'^.*?(?=<h2 id="2-abstract">)', styled_cover, html_body, flags=re.DOTALL)
+
+    # Clean any accidental extra page breaks before abstract
+    html_body = re.sub(r'(<div class="cover-page">.*?</div>)\s*(?:<div style="page-break-after: always;"></div>|<hr />)+', r'\1\n', html_body, flags=re.DOTALL)
 
     # HTML Document Shell with Print Stylesheet
     html_doc = f"""<!DOCTYPE html>
@@ -227,13 +215,9 @@ def generate_html_from_markdown(md_path):
     /* Cover Page Styling */
     .cover-page {{
         text-align: center;
-        padding: 60px 20px 20px 20px;
+        padding: 60px 20px 30px 20px;
         page-break-after: always;
-        min-height: 85vh;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
+        page-break-inside: avoid;
     }}
     .cover-badge {{
         display: inline-block;
@@ -252,23 +236,20 @@ def generate_html_from_markdown(md_path):
         line-height: 1.3;
         color: #0f172a;
         margin: 0 0 15px 0;
-        max-width: 92%;
     }}
     .cover-subtitle {{
         font-size: 12pt;
         color: #475569;
         font-style: italic;
         margin: 0 0 45px 0;
-        max-width: 85%;
     }}
     .cover-details-card {{
         width: 100%;
-        max-width: 620px;
+        max-width: 600px;
         background: #f8fafc;
         border: 2px solid #e2e8f0;
         border-radius: 12px;
-        padding: 22px 28px;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        padding: 20px 26px;
         margin: 0 auto;
     }}
     .cover-table {{
@@ -356,11 +337,11 @@ def generate_html_from_markdown(md_path):
     }}
     .report-img {{
         max-width: 94%;
-        max-height: 400px;
+        max-height: 380px;
+        height: auto;
         object-fit: contain;
         border: 1px solid #cbd5e1;
         border-radius: 6px;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.06);
     }}
     .figure-caption {{
         font-size: 8.5pt;
@@ -482,23 +463,42 @@ def main():
 
     print(f"Using browser for PDF generation: {browser_exe}")
     
+    html_url = "file:///" + os.path.abspath(html_path).replace("\\", "/")
+    
     cmd = [
         browser_exe,
-        "--headless=new",
+        "--headless",
         "--disable-gpu",
         "--no-sandbox",
         "--allow-file-access-from-files",
         f"--print-to-pdf={pdf_path}",
         "--no-pdf-header-footer",
-        html_path
+        html_url
     ]
     
-    print("Executing Chrome headless PDF conversion...")
+    print(f"Executing browser print-to-pdf with URL: {html_url}")
     result = subprocess.run(cmd, capture_output=True, text=True, timeout=120)
     
     if os.path.exists(pdf_path) and os.path.getsize(pdf_path) > 0:
         pdf_size_mb = os.path.getsize(pdf_path) / (1024 * 1024)
         print(f"SUCCESS: Generated PDF report -> {pdf_path} ({pdf_size_mb:.2f} MB)")
+        
+        # Verify with pypdf
+        reader = pypdf.PdfReader(pdf_path)
+        num_pages = len(reader.pages)
+        print(f"PDF Validation: Total {num_pages} pages detected.")
+        blank_pages = []
+        for i, page in enumerate(reader.pages):
+            txt = page.extract_text().strip()
+            if len(txt) <= 10:  # Only page number or empty
+                blank_pages.append(i + 1)
+        if blank_pages:
+            print(f"WARNING: Blank pages detected: {blank_pages}")
+        else:
+            print("VERIFIED: 0 blank pages detected! All pages contain rich text and figures.")
+            for i in range(min(5, num_pages)):
+                snippet = reader.pages[i].extract_text().strip()[:80].replace("\n", " ")
+                print(f"  - Page {i+1} preview: {snippet}...")
     else:
         print(f"ERROR generating PDF: Return code {result.returncode}")
         print("STDOUT:", result.stdout)
