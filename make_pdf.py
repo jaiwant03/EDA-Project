@@ -291,23 +291,6 @@ def generate_html_document(md_path, page_map=None):
             content: none;
         }}
     }}
-    * {{
-        box-sizing: border-box;
-    }}
-    
-    /* 4-Side Margin Box Frame for All Pages */
-    .page-frame {{
-        position: fixed;
-        top: -8mm;
-        bottom: -8mm;
-        left: -8mm;
-        right: -8mm;
-        border: 1.5px solid #0a2540;
-        pointer-events: none;
-        z-index: 9999;
-        box-sizing: border-box;
-    }}
-
     body {{
         font-family: "Times New Roman", Times, "Liberation Serif", serif;
         color: #111827;
@@ -625,7 +608,6 @@ def generate_html_document(md_path, page_map=None):
 </style>
 </head>
 <body>
-<div class="page-frame"></div>
 {html_body}
 </body>
 </html>
@@ -686,6 +668,63 @@ def extract_section_page_numbers(pdf_path):
         
     return page_map
 
+def apply_margin_border_overlay(pdf_path, browser_exe):
+    temp_dir = tempfile.mkdtemp(prefix="border_overlay_")
+    try:
+        border_html_path = os.path.join(temp_dir, "border.html")
+        border_pdf_path = os.path.join(temp_dir, "border.pdf")
+        
+        border_html = """<!DOCTYPE html>
+<html>
+<head>
+<style>
+@page {
+    size: A4;
+    margin: 12mm;
+}
+* { box-sizing: border-box; }
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+}
+.border-rect {
+    width: 100%;
+    height: 100%;
+    border: 1px solid #000000;
+}
+</style>
+</head>
+<body>
+<div class="border-rect"></div>
+</body>
+</html>"""
+        with open(border_html_path, "w", encoding="utf-8") as f:
+            f.write(border_html)
+            
+        run_chrome_pdf(border_html_path, border_pdf_path, browser_exe)
+        
+        border_reader = pypdf.PdfReader(border_pdf_path)
+        border_page = border_reader.pages[0]
+        
+        doc_reader = pypdf.PdfReader(pdf_path)
+        writer = pypdf.PdfWriter()
+        
+        for page in doc_reader.pages:
+            page.merge_page(border_page)
+            writer.add_page(page)
+            
+        temp_out = os.path.join(temp_dir, "final_bounded.pdf")
+        with open(temp_out, "wb") as f:
+            writer.write(f)
+            
+        shutil.copyfile(temp_out, pdf_path)
+        print(f"Applied 4-sided margin border box to all {len(writer.pages)} pages.")
+    finally:
+        shutil.rmtree(temp_dir, ignore_errors=True)
+
 def main():
     base_dir = os.path.dirname(os.path.abspath(__file__))
     md_path = os.path.join(base_dir, 'PROJECT_REPORT.md')
@@ -731,8 +770,9 @@ def main():
         f.write(pass2_html)
     
     run_chrome_pdf(html_path, pdf_path, browser_exe)
+    apply_margin_border_overlay(pdf_path, browser_exe)
     pdf_size_mb = os.path.getsize(pdf_path) / (1024 * 1024)
-    print(f"SUCCESS: Final PDF compiled -> {pdf_path} ({pdf_size_mb:.2f} MB)")
+    print(f"SUCCESS: Final PDF compiled with 4-sided margin frame -> {pdf_path} ({pdf_size_mb:.2f} MB)")
 
     # ================= VERIFICATION =================
     print("\n[VALIDATION] Running Comprehensive Page-by-Page Audit on Final PDF...")
