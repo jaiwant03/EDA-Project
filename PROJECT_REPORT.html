@@ -6,11 +6,17 @@
 <style>
     @page {
         size: A4;
-        margin: 18mm 16mm 18mm 16mm;
+        margin: 20mm 18mm 20mm 18mm;
         @bottom-right {
             content: "Page " counter(page);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             font-size: 8.5pt;
             color: #64748b;
+        }
+    }
+    @page :first {
+        @bottom-right {
+            content: none;
         }
     }
     * {
@@ -26,10 +32,10 @@
         padding: 0;
     }
     
-    /* Cover Page Styling */
+    /* Cover Page */
     .cover-page {
         text-align: center;
-        padding: 60px 20px 30px 20px;
+        padding: 70px 20px 30px 20px;
         page-break-after: always;
         page-break-inside: avoid;
     }
@@ -88,6 +94,66 @@
         color: #0f172a;
     }
 
+    /* Table of Contents */
+    .toc-page {
+        padding: 30px 10px;
+        page-break-after: always;
+        page-break-inside: avoid;
+    }
+    .toc-heading {
+        font-size: 17pt;
+        font-weight: 800;
+        color: #0f172a;
+        border-bottom: 2.5px solid #0284c7;
+        padding-bottom: 6px;
+        margin-top: 0;
+        margin-bottom: 20px;
+        text-align: left;
+    }
+    .toc-list {
+        display: flex;
+        flex-direction: column;
+    }
+    .toc-entry {
+        display: flex;
+        align-items: baseline;
+        text-decoration: none;
+        color: #0f172a;
+        margin-bottom: 7px;
+        font-size: 9.5pt;
+    }
+    .toc-entry:hover {
+        color: #0284c7;
+    }
+    .toc-entry.main {
+        font-weight: 700;
+        color: #0f172a;
+        margin-top: 5px;
+    }
+    .toc-entry.sub {
+        padding-left: 20px;
+        font-size: 9pt;
+        font-weight: 400;
+        color: #334155;
+    }
+    .toc-title-text {
+        flex-shrink: 0;
+    }
+    .toc-dots {
+        flex-grow: 1;
+        border-bottom: 1px dotted #94a3b8;
+        margin: 0 8px;
+        position: relative;
+        top: -3px;
+    }
+    .toc-page-num {
+        flex-shrink: 0;
+        font-weight: 600;
+        color: #0369a1;
+        min-width: 20px;
+        text-align: right;
+    }
+
     /* Section Headings */
     h2 {
         font-size: 14pt;
@@ -100,15 +166,15 @@
         page-break-after: avoid;
     }
     h3 {
-        font-size: 12pt;
+        font-size: 11.5pt;
         font-weight: 600;
         color: #0369a1;
-        margin-top: 20px;
+        margin-top: 18px;
         margin-bottom: 8px;
         page-break-after: avoid;
     }
     h4 {
-        font-size: 10.5pt;
+        font-size: 10pt;
         font-weight: 600;
         color: #334155;
         margin-top: 14px;
@@ -126,12 +192,12 @@
         width: 100%;
         border-collapse: collapse;
         margin: 12px 0 16px 0;
-        font-size: 9pt;
+        font-size: 8.8pt;
         page-break-inside: avoid;
     }
     th, td {
         border: 1px solid #cbd5e1;
-        padding: 6px 9px;
+        padding: 6px 8px;
         text-align: left;
     }
     th {
@@ -150,8 +216,8 @@
         page-break-inside: avoid;
     }
     .report-img {
-        max-width: 94%;
-        max-height: 380px;
+        max-width: 92%;
+        max-height: 360px;
         height: auto;
         object-fit: contain;
         border: 1px solid #cbd5e1;
@@ -172,7 +238,7 @@
         padding: 7px 12px;
         margin: 8px 0;
         font-family: "Cambria Math", "DejaVu Serif", serif;
-        font-size: 10pt;
+        font-size: 9.8pt;
         color: #0f172a;
         page-break-inside: avoid;
     }
@@ -218,14 +284,11 @@
         margin: 20px 0;
     }
 
-    /* Print Specifics */
+    /* Print specifics */
     @media print {
         body {
             background: #ffffff;
             color: #000000;
-        }
-        h2 {
-            page-break-before: auto;
         }
         .figure-container {
             page-break-inside: avoid;
@@ -256,19 +319,242 @@
         </table>
     </div>
 </div>
-<h2 id="2-abstract">2. Abstract</h2>
+
+    <div class="toc-page">
+        <h2 class="toc-heading">Table of Contents</h2>
+        <div class="toc-list">
+            
+        <a href="#sec-1" class="toc-entry main">
+            <span class="toc-title-text">1. Abstract</span>
+            <span class="toc-dots"></span>
+            <span class="toc-page-num">00</span>
+        </a>
+        
+
+        <a href="#sec-2" class="toc-entry main">
+            <span class="toc-title-text">2. Introduction and Objectives</span>
+            <span class="toc-dots"></span>
+            <span class="toc-page-num">00</span>
+        </a>
+        
+
+        <a href="#sec-2-1" class="toc-entry sub">
+            <span class="toc-title-text">2.1 Introduction</span>
+            <span class="toc-dots"></span>
+            <span class="toc-page-num">00</span>
+        </a>
+        
+
+        <a href="#sec-2-2" class="toc-entry sub">
+            <span class="toc-title-text">2.2 Objectives</span>
+            <span class="toc-dots"></span>
+            <span class="toc-page-num">00</span>
+        </a>
+        
+
+        <a href="#sec-3" class="toc-entry main">
+            <span class="toc-title-text">3. Dataset Description</span>
+            <span class="toc-dots"></span>
+            <span class="toc-page-num">00</span>
+        </a>
+        
+
+        <a href="#sec-3-1" class="toc-entry sub">
+            <span class="toc-title-text">3.1 Data Source and Physical Provenance</span>
+            <span class="toc-dots"></span>
+            <span class="toc-page-num">00</span>
+        </a>
+        
+
+        <a href="#sec-3-2" class="toc-entry sub">
+            <span class="toc-title-text">3.2 Feature Fields and Schema Definition</span>
+            <span class="toc-dots"></span>
+            <span class="toc-page-num">00</span>
+        </a>
+        
+
+        <a href="#sec-3-3" class="toc-entry sub">
+            <span class="toc-title-text">3.3 Summary Statistics and Data Quality Audit</span>
+            <span class="toc-dots"></span>
+            <span class="toc-page-num">00</span>
+        </a>
+        
+
+        <a href="#sec-4" class="toc-entry main">
+            <span class="toc-title-text">4. EDA and Preprocessing</span>
+            <span class="toc-dots"></span>
+            <span class="toc-page-num">00</span>
+        </a>
+        
+
+        <a href="#sec-4-1" class="toc-entry sub">
+            <span class="toc-title-text">4.1 Preprocessing Methods and Zero-Leakage Protocol</span>
+            <span class="toc-dots"></span>
+            <span class="toc-page-num">00</span>
+        </a>
+        
+
+        <a href="#sec-4-2" class="toc-entry sub">
+            <span class="toc-title-text">4.2 EDA Key Insights</span>
+            <span class="toc-dots"></span>
+            <span class="toc-page-num">00</span>
+        </a>
+        
+
+        <a href="#sec-5" class="toc-entry main">
+            <span class="toc-title-text">5. Data Visualization (Visuals 1 to 7)</span>
+            <span class="toc-dots"></span>
+            <span class="toc-page-num">00</span>
+        </a>
+        
+
+        <a href="#sec-6" class="toc-entry main">
+            <span class="toc-title-text">6. Deep Learning Model</span>
+            <span class="toc-dots"></span>
+            <span class="toc-page-num">00</span>
+        </a>
+        
+
+        <a href="#sec-6-1" class="toc-entry sub">
+            <span class="toc-title-text">6.1 Architecture Design</span>
+            <span class="toc-dots"></span>
+            <span class="toc-page-num">00</span>
+        </a>
+        
+
+        <a href="#sec-6-2" class="toc-entry sub">
+            <span class="toc-title-text">6.2 Training Parameters</span>
+            <span class="toc-dots"></span>
+            <span class="toc-page-num">00</span>
+        </a>
+        
+
+        <a href="#sec-6-3" class="toc-entry sub">
+            <span class="toc-title-text">6.3 Hyperparameter Tuning and Optimization Strategy</span>
+            <span class="toc-dots"></span>
+            <span class="toc-page-num">00</span>
+        </a>
+        
+
+        <a href="#sec-7" class="toc-entry main">
+            <span class="toc-title-text">7. Results Visualization and Interpretation</span>
+            <span class="toc-dots"></span>
+            <span class="toc-page-num">00</span>
+        </a>
+        
+
+        <a href="#sec-7-1" class="toc-entry sub">
+            <span class="toc-title-text">7.1 Quantitative Model Evaluation Summary</span>
+            <span class="toc-dots"></span>
+            <span class="toc-page-num">00</span>
+        </a>
+        
+
+        <a href="#sec-7-2" class="toc-entry sub">
+            <span class="toc-title-text">7.2 Evaluation Metrics and Mathematical Definitions</span>
+            <span class="toc-dots"></span>
+            <span class="toc-page-num">00</span>
+        </a>
+        
+
+        <a href="#sec-7-3" class="toc-entry sub">
+            <span class="toc-title-text">7.3 Accuracy, AUC, and ROC Analysis Context</span>
+            <span class="toc-dots"></span>
+            <span class="toc-page-num">00</span>
+        </a>
+        
+
+        <a href="#sec-7-4" class="toc-entry sub">
+            <span class="toc-title-text">7.4 Result Visualizations and Analytical Interpretations (Visuals 8 to 14)</span>
+            <span class="toc-dots"></span>
+            <span class="toc-page-num">00</span>
+        </a>
+        
+
+        <a href="#sec-8" class="toc-entry main">
+            <span class="toc-title-text">8. Conclusion and Future Scope</span>
+            <span class="toc-dots"></span>
+            <span class="toc-page-num">00</span>
+        </a>
+        
+
+        <a href="#sec-8-1" class="toc-entry sub">
+            <span class="toc-title-text">8.1 Academic Conclusion</span>
+            <span class="toc-dots"></span>
+            <span class="toc-page-num">00</span>
+        </a>
+        
+
+        <a href="#sec-8-2" class="toc-entry sub">
+            <span class="toc-title-text">8.2 Practical Limitations</span>
+            <span class="toc-dots"></span>
+            <span class="toc-page-num">00</span>
+        </a>
+        
+
+        <a href="#sec-8-3" class="toc-entry sub">
+            <span class="toc-title-text">8.3 Future Scope</span>
+            <span class="toc-dots"></span>
+            <span class="toc-page-num">00</span>
+        </a>
+        
+
+        <a href="#sec-9" class="toc-entry main">
+            <span class="toc-title-text">9. References</span>
+            <span class="toc-dots"></span>
+            <span class="toc-page-num">00</span>
+        </a>
+        
+
+        <a href="#sec-10" class="toc-entry main">
+            <span class="toc-title-text">10. Appendix (Code Section)</span>
+            <span class="toc-dots"></span>
+            <span class="toc-page-num">00</span>
+        </a>
+        
+
+        <a href="#sec-10-1" class="toc-entry sub">
+            <span class="toc-title-text">10.1 Dataset Inspection & Quality Audit</span>
+            <span class="toc-dots"></span>
+            <span class="toc-page-num">00</span>
+        </a>
+        
+
+        <a href="#sec-10-2" class="toc-entry sub">
+            <span class="toc-title-text">10.2 Leakage-Free Preprocessing & Chronological Splitting</span>
+            <span class="toc-dots"></span>
+            <span class="toc-page-num">00</span>
+        </a>
+        
+
+        <a href="#sec-10-3" class="toc-entry sub">
+            <span class="toc-title-text">10.3 Sliding-Window Generation & LSTM Model Construction</span>
+            <span class="toc-dots"></span>
+            <span class="toc-page-num">00</span>
+        </a>
+        
+
+        <a href="#sec-10-4" class="toc-entry sub">
+            <span class="toc-title-text">10.4 Held-Out Test Evaluation & Metric Inversion</span>
+            <span class="toc-dots"></span>
+            <span class="toc-page-num">00</span>
+        </a>
+        
+        </div>
+    </div>
+    <h2 id="1-abstract"><a id="sec-1"></a>1. Abstract</h2>
 <p><strong>Word Count: 135 words</strong></p>
 <p>Atmospheric particulate matter (PM<sub>2.5</sub>) poses severe cardiovascular and respiratory public health threats, governed by complex non-linear meteorological dynamics. This study presents an end-to-end data science and deep learning framework to forecast hourly urban PM<sub>2.5</sub> concentrations using the Beijing Air Quality dataset from the UCI Machine Learning Repository. Spanning five continuous years (2010–2014; 43,800 hourly observations), the dataset was rigorously audited, confirming zero null values and uniform temporal spacing. Exploratory data analysis revealed high right-skewness and strong aerodynamic dispersion driven by surface wind speed (<i>r</i> = -0.234). Under strict zero-leakage protocols, data was partitioned chronologically (70/15/15) and normalized using training-fitted MinMax scalers. A Long Short-Term Memory (LSTM) network with 64 recurrent units, dropout regularization, and dense layers was optimized via sliding-window tensors (<i>T</i> = 24). The multivariate model achieved exceptional held-out test performance ($\text{MAE} = 12.07 µg/m³, $\text{RMSE} = 22.20 µg/m³, <i>R</i>² = 0.9207), significantly outperforming univariate baselines.</p>
 <hr />
-<h2 id="3-introduction-objective">3. Introduction &amp; Objective</h2>
-<h3 id="31-introduction">3.1 Introduction</h3>
+<h2 id="2-introduction-and-objectives"><a id="sec-2"></a>2. Introduction and Objectives</h2>
+<h3 id="21-introduction"><a id="sec-2-1"></a>2.1 Introduction</h3>
 <p>Fine particulate matter with an aerodynamic diameter of 2.5 micrometers or smaller (PM<sub>2.5</sub>) represents one of the most hazardous urban airborne pollutants. Due to its microscopic size, PM<sub>2.5</sub> remains suspended in ambient air for extended durations, penetrating deeply into human bronchioles and alveoli, and crossing the alveolar-capillary barrier into the cardiovascular system. Chronic and acute exposure to elevated PM<sub>2.5</sub> levels is clinically linked to asthma exacerbation, chronic obstructive pulmonary disease (COPD), ischemic heart disease, stroke, and premature mortality.</p>
 <p>Urban air quality is not governed solely by static emission sources such as vehicular traffic, industrial factories, and fossil-fuel power plants. Rather, ambient pollutant concentrations fluctuate dynamically through non-linear interactions with local and regional atmospheric conditions:
 1. <strong>Advective Dispersion:</strong> Sustained surface winds physically transport and dilute particulate plumes away from urban basins.
 2. <strong>Thermal Inversions &amp; Boundary Layer Dynamics:</strong> Radiative surface cooling during winter months traps dense, stagnant air beneath warmer aloft layers, creating atmospheric lids that concentrate emissions near ground level.
 3. <strong>Moisture &amp; Secondary Aerosol Formation:</strong> High relative humidity and dew point accelerate hygroscopic aerosol growth and liquid-phase chemical transformations of sulfur dioxide and nitrogen oxides into secondary fine particulates.</p>
 <p>Standard classical linear regression and autoregressive moving average (ARIMA/SARIMAX) models often fail to capture these non-linear meteorological couplings, long-term memory effects, and sudden episodic spikes. Deep learning architectures, specifically <strong>Long Short-Term Memory (LSTM)</strong> recurrent neural networks, are purpose-built to maintain temporal context and model complex non-linear multi-variate dependencies without succumbing to the vanishing gradient dilemma.</p>
-<h3 id="32-objectives">3.2 Objectives</h3>
+<h3 id="22-objectives"><a id="sec-2-2"></a>2.2 Objectives</h3>
 <p>The primary objectives of this investigation are:
 1. <strong>Systematic Schema &amp; Data Integrity Audit:</strong> Perform programmatic verification of the dataset hierarchy, data types, null counts, duplicate records, and observation frequency monotonicity.
 2. <strong>Comprehensive Exploratory Data Analysis (EDA):</strong> Quantify the empirical probability distributions, investigate seasonal winter spikes, analyze rolling trends and volatility envelopes, and characterize meteorological correlations.
@@ -277,8 +563,8 @@
 5. <strong>Reproducible Hyperparameter Optimization:</strong> Systematically evaluate look-back sequence lengths, hidden unit capacities, and learning rates using validation performance alone.
 6. <strong>Empirical Benchmarking &amp; Ablation:</strong> Quantitatively contrast multivariate forecasting against a univariate autoregressive baseline, and conduct input feature ablation to distinguish statistical correlation from physical causation.</p>
 <hr />
-<h2 id="4-dataset-description">4. Dataset Description</h2>
-<h3 id="41-data-source-and-physical-provenance">4.1 Data Source and Physical Provenance</h3>
+<h2 id="3-dataset-description"><a id="sec-3"></a>3. Dataset Description</h2>
+<h3 id="31-data-source-and-physical-provenance"><a id="sec-3-1"></a>3.1 Data Source and Physical Provenance</h3>
 <p>The dataset utilized in this investigation is the benchmark <strong>Beijing PM2.5 Hourly Air Quality and Meteorological Dataset</strong>, curated by researchers from Peking University (Liang et al., 2015; Zhang et al., 2017) and archived in the <strong>UCI Machine Learning Repository</strong> and <strong>Kaggle</strong>:
 - <strong>Dataset File:</strong> <code>LSTM-Multivariate_pollution.csv</code>
 - <strong>Location of Sensor:</strong> US Embassy in Beijing, China, collocated with surface meteorological observations from the Beijing Capital International Airport station.
@@ -286,7 +572,7 @@
 - <strong>Observation Span:</strong> January 2, 2010 00:00:00 to December 31, 2014 23:00:00.
 - <strong>Total Record Count:</strong> Exactly 43,800 hourly rows.
 - <strong>In-Memory Size:</strong> Approximately 3.35 MB.</p>
-<h3 id="42-feature-fields-schema-definition">4.2 Feature Fields &amp; Schema Definition</h3>
+<h3 id="32-feature-fields-and-schema-definition"><a id="sec-3-2"></a>3.2 Feature Fields and Schema Definition</h3>
 <p>The dataset consists of 9 base features: 1 datetime index, 1 target variable (<code>pollution</code>), and 7 meteorological predictors.</p>
 <table>
 <thead>
@@ -364,7 +650,7 @@
 </tr>
 </tbody>
 </table>
-<h3 id="43-summary-statistics-and-data-quality-audit">4.3 Summary Statistics and Data Quality Audit</h3>
+<h3 id="33-summary-statistics-and-data-quality-audit"><a id="sec-3-3"></a>3.3 Summary Statistics and Data Quality Audit</h3>
 <p>A programmatic audit across all 43,800 records established the following:
 - <strong>Missing / Null Values:</strong> Exactly 0 missing values across all columns.
 - <strong>Duplicate Observations:</strong> Exactly 0 duplicate rows.
@@ -470,8 +756,8 @@
 - <code>cv</code> (Calm / Variable): 9,384 records (21.42%)
 - <code>NE</code> (Northeast): 4,996 records (11.41%)</p>
 <hr />
-<h2 id="5-eda-and-preprocessing">5. EDA and Preprocessing</h2>
-<h3 id="51-preprocessing-methods-zero-leakage-protocol">5.1 Preprocessing Methods &amp; Zero-Leakage Protocol</h3>
+<h2 id="4-eda-and-preprocessing"><a id="sec-4"></a>4. EDA and Preprocessing</h2>
+<h3 id="41-preprocessing-methods-and-zero-leakage-protocol"><a id="sec-4-1"></a>4.1 Preprocessing Methods and Zero-Leakage Protocol</h3>
 <p>In temporal sequence modeling, applying standard cross-sectional techniques such as random train-test splitting or global normalization introduces severe <strong>data leakage</strong>. If normalization parameters (minimum and maximum bounds) are computed across the full dataset prior to splitting, information regarding future distribution shifts, peak values, and variance leaks into the training domain. This results in overly optimistic validation scores that degrade drastically in real-world deployment.</p>
 <p>To establish a zero-leakage pipeline:
 1. <strong>Categorical Wind Direction Encoding:</strong> One-Hot Encoding was applied to <code>wnd_dir</code>, yielding four orthogonal binary indicators (<code>wnd_dir_NE</code>, <code>wnd_dir_NW</code>, <code>wnd_dir_SE</code>, <code>wnd_dir_cv</code>). This avoids imposing artificial ordinal distance on non-ordinal compass headings.
@@ -489,7 +775,7 @@
 </ol>
 <p>Validation and testing sets were then transformed using these fitted training parameters. A dedicated single-feature <code>target_scaler</code> was simultaneously fitted on the training target column to ensure exact inverse transformations from normalized space to original µg/m³ physical units.
 5. <strong>Causal Sliding Window Formulation (Many-to-One):</strong> Tensors were generated using a causal sliding window of length <i>T</i> = 24 hours (representing one full diurnal cycle). For any time step <i>t</i>, the input tensor $X_t \in \mathbb{R}^{24 × 11}$ contains historical observations from <i>t</i>-23 to <i>t</i>, mapped to the scalar target $y_t = \text{pollution}_{t+1} \in \mathbb{R}^1$.</p>
-<h3 id="52-eda-key-insights">5.2 EDA Key Insights</h3>
+<h3 id="42-eda-key-insights"><a id="sec-4-2"></a>4.2 EDA Key Insights</h3>
 <p>The exploratory analysis revealed crucial domain findings:
 - <strong>Strong Positive Skewness:</strong> The distribution of PM<sub>2.5</sub> concentration is strongly right-skewed (γ = 1.815), with a long heavy tail reaching $994 µg/m³. The median ($68 µg/m³) is significantly lower than the mean ($94.01 µg/m³).
 - <strong>Pronounced Winter Seasonality:</strong> PM<sub>2.5</sub> exhibits periodic spikes during late autumn and winter (November–February), with recurring hazardous episodes exceeding $400$–$800 µg/m³. This correlates with coal-fired municipal central heating, cold atmospheric stagnation, and frequent ground-level temperature inversions.
@@ -498,7 +784,7 @@
 - <strong>Thermodynamic Inversion Signature:</strong> Temperature and barometric surface pressure exhibit strong inverse collinearity (<i>r</i> = -0.827), consistent with seasonal atmospheric density dynamics.
 - <strong>Outlier Retention Policy:</strong> Extreme particulate measurements ($&gt;300 µg/m³) were formally retained in the modeling pipeline without clipping or removal. In environmental science, these data points represent real, physically validated episodic smog crises (e.g., the historical Beijing "Airpocalypse" events). Truncating them would impair the neural network's ability to anticipate life-threatening air pollution episodes.</p>
 <hr />
-<h2 id="6-data-visualization-7-diagnostic-visuals-with-detailed-explanation">6. Data Visualization (7 Diagnostic Visuals with Detailed Explanation)</h2>
+<h2 id="5-data-visualization"><a id="sec-5"></a>5. Data Visualization</h2>
 <p>Below are the 7 publication-grade exploratory visualizations generated and exported to <code>outputs/plots/</code>.</p>
 <h3 id="visual-1-longitudinal-5-year-time-series-with-30-day-moving-average">Visual 1: Longitudinal 5-Year Time Series with 30-Day Moving Average</h3>
 <ul>
@@ -571,8 +857,8 @@
   This visualization demonstrates atmospheric coupling: every sharp drop in PM<sub>2.5</sub> concentration directly coincides with an abrupt spike in wind speed (reaching $40$–$100 \text{m/s}$) and a concurrent rise in barometric pressure as dense, cold northern air masses displace stagnant surface air. This synchronous behavior demonstrates why multi-variate modeling that incorporates atmospheric covariates provides superior forecasting compared to univariate autoregression alone.</li>
 </ul>
 <hr />
-<h2 id="7-deep-learning-model">7. Deep Learning Model</h2>
-<h3 id="71-architecture-design">7.1 Architecture Design</h3>
+<h2 id="6-deep-learning-model"><a id="sec-6"></a>6. Deep Learning Model</h2>
+<h3 id="61-architecture-design"><a id="sec-6-1"></a>6.1 Architecture Design</h3>
 <p>The forecasting architecture is formulated as a deep recurrent neural network implemented in TensorFlow/Keras. Long Short-Term Memory (LSTM) cells are selected because they mitigate the vanishing gradient problem inherent in standard RNNs by maintaining an internal <strong>Cell State</strong> (<i>C<sub>t</sub></i>) regulated by three non-linear gates:
 1. <strong>Forget Gate ($f_t$):</strong> Discards uninformative historical information:
  <br />
@@ -657,7 +943,7 @@
 <li><strong>Trainable Parameters:</strong> 21,569 (100%)</li>
 <li><strong>Non-Trainable Parameters:</strong> 0</li>
 </ul>
-<h3 id="72-training-parameters">7.2 Training Parameters</h3>
+<h3 id="62-training-parameters"><a id="sec-6-2"></a>6.2 Training Parameters</h3>
 <ul>
 <li>
 <p><strong>Objective Loss Function:</strong> Mean Squared Error (MSE):
@@ -673,7 +959,7 @@
 <li><strong>Maximum Epochs:</strong> 8 epochs.</li>
 <li><strong>Regularization Strategy:</strong> Early Stopping configured with <code>monitor='val_loss'</code>, <code>patience=3</code>, and <code>restore_best_weights=True</code> to avoid overfitting on the training partition.</li>
 </ul>
-<h3 id="73-hyperparameter-tuning-and-optimization-strategy">7.3 Hyperparameter Tuning and Optimization Strategy</h3>
+<h3 id="63-hyperparameter-tuning-and-optimization-strategy"><a id="sec-6-3"></a>6.3 Hyperparameter Tuning and Optimization Strategy</h3>
 <p>A systematic hyperparameter search was conducted strictly across the chronological <strong>Validation Partition</strong> (6,570 samples) to evaluate look-back sequence lengths (<i>T</i>), recurrent capacities, and learning rates without touching the held-out test set:</p>
 <table>
 <thead>
@@ -729,8 +1015,8 @@
 <p><strong>Selection Rationale:</strong>
 <strong>Config A</strong> achieved the lowest validation loss (Val MSE = 0.000624, Val MAE = 0.0152). A 24-hour look-back window matches the natural diurnal cycle of boundary layer height and traffic emissions. Reducing the sequence length to 12 hours (Config B) increased validation loss by 5.9%, confirming that a full 24-hour context improves prediction accuracy. Config A was serialized to <code>models/best_lstm_model.keras</code>.</p>
 <hr />
-<h2 id="8-result-visualization-interpretation">8. Result Visualization &amp; Interpretation</h2>
-<h3 id="81-quantitative-model-evaluation-summary">8.1 Quantitative Model Evaluation Summary</h3>
+<h2 id="7-results-visualization-and-interpretation"><a id="sec-7"></a>7. Results Visualization and Interpretation</h2>
+<h3 id="71-quantitative-model-evaluation-summary"><a id="sec-7-1"></a>7.1 Quantitative Model Evaluation Summary</h3>
 <p>The optimal model was evaluated on the held-out test partition (April 3, 2014 to December 31, 2014; 6,546 sliding test sequences) <strong>exactly once</strong>. All predictions were mapped back to original physical units (µg/m³) via <code>target_scaler.inverse_transform()</code>:</p>
 <table>
 <thead>
@@ -774,7 +1060,7 @@
 </tr>
 </tbody>
 </table>
-<h3 id="82-evaluation-metrics-mathematical-definitions">8.2 Evaluation Metrics &amp; Mathematical Definitions</h3>
+<h3 id="72-evaluation-metrics-and-mathematical-definitions"><a id="sec-7-2"></a>7.2 Evaluation Metrics and Mathematical Definitions</h3>
 <ol>
 <li>
 <p><strong>Mean Absolute Error (MAE):</strong> Average magnitude of absolute prediction errors in original physical units:
@@ -793,7 +1079,7 @@
 </p>
 </li>
 </ol>
-<h3 id="83-contextual-note-on-accuracy-auc-and-roc-for-regression-vs-classification">8.3 Contextual Note on Accuracy, AUC, and ROC for Regression vs. Classification</h3>
+<h3 id="73-accuracy-auc-and-roc-analysis-context"><a id="sec-7-3"></a>7.3 Accuracy, AUC, and ROC Analysis Context</h3>
 <p>In time-series machine learning, a clear distinction must be made between continuous regression metrics and discrete classification metrics:
 - <strong>Continuous Regression Metrics:</strong> Because PM<sub>2.5</sub> concentration is continuous ($0$ to $994 µg/m³), metrics like MAE, MSE, RMSE, and <i>R</i>² quantify forecasting precision across the full range.
 - <strong>Classification AUC / ROC Equivalent (Thresholded Exceedance):</strong> When framed as an early warning classification task for public health—such as predicting whether PM<sub>2.5</sub> will cross the National Hazardous Air Quality Standard ($75 µg/m³)—the continuous predictions can be converted into binary event alerts ($\hat{y}_{t+1} ≥ 75$). Thresholding the test predictions at $75 µg/m³ yields:
@@ -803,7 +1089,7 @@
   - <strong>Receiver Operating Characteristic Area Under Curve ($\text{ROC-AUC}$):</strong> $\mathbf{0.9712}$
   This confirms that the LSTM performs reliably both as a continuous forecaster and as a thresholded alert system for hazardous air events.</p>
 <hr />
-<h3 id="84-result-visualizations-analytical-interpretations">8.4 Result Visualizations &amp; Analytical Interpretations</h3>
+<h3 id="74-result-visualizations-and-analytical-interpretations"><a id="sec-7-4"></a>7.4 Result Visualizations and Analytical Interpretations</h3>
 <p>The evaluation figures generated and saved to <code>outputs/plots/</code> are presented below:</p>
 <h4 id="visual-8-training-and-validation-loss-convergence-curves">Visual 8: Training and Validation Loss Convergence Curves</h4>
 <ul>
@@ -865,22 +1151,22 @@
 <li><strong>Interpretation:</strong> Illustrates a practical single-step forecast: ingesting the 24-hour window ending December 31, 2014 at 23:00 produces an onward point prediction of $24.8 µg/m³ for January 1, 2015 00:00, demonstrating real-world operational capability.</li>
 </ul>
 <hr />
-<h2 id="9-conclusion-and-future-scope">9. Conclusion and Future Scope</h2>
-<h3 id="91-conclusion">9.1 Conclusion</h3>
+<h2 id="8-conclusion-and-future-scope"><a id="sec-8"></a>8. Conclusion and Future Scope</h2>
+<h3 id="81-academic-conclusion"><a id="sec-8-1"></a>8.1 Academic Conclusion</h3>
 <p>This project developed an end-to-end exploratory data analysis and deep recurrent forecasting pipeline for hourly urban PM<sub>2.5</sub> air pollution:
 1. <strong>Data Integrity &amp; Quality:</strong> The 43,800-record Beijing dataset was verified to have zero missing values, zero duplicates, and uniform 1-hour sampling intervals.
 2. <strong>Meteorological Insights:</strong> Exploratory analysis confirmed that wind speed provides the strongest aerodynamic clearing effect (<i>r</i> = -0.234), while southeast winds and calm conditions exacerbate pollutant pooling against northern mountains.
 3. <strong>Zero-Leakage Integrity:</strong> By splitting data chronologically (70/15/15) and fitting normalizers solely on the training set, look-ahead bias was eliminated.
 4. <strong>Predictive Performance:</strong> The multivariate LSTM model attained strong predictive accuracy on the held-out test partition: $\text{MAE} = 12.069 µg/m³, $\text{RMSE} = 22.195 µg/m³, and <i>R</i>² = 0.9207, explaining over 92% of particulate variance.
 5. <strong>Multivariate Value:</strong> Integrating meteorological predictors outperformed univariate autoregression (lower RMSE and improved capture of sudden wind-driven clearances).</p>
-<h3 id="92-practical-limitations">9.2 Practical Limitations</h3>
+<h3 id="82-practical-limitations"><a id="sec-8-2"></a>8.2 Practical Limitations</h3>
 <ol>
 <li><strong>Deterministic Point Predictions:</strong> The current model produces a single deterministic estimate without confidence intervals, which limits uncertainty quantification for high-risk regulatory decisions.</li>
 <li><strong>Phase Lag on Rapid Spike Onset:</strong> Under extreme weather shifts, MSE-trained LSTMs can exhibit a 1-to-2 hour delay in responding to abrupt orders of magnitude changes.</li>
 <li><strong>Absence of Direct Source Emission Inventories:</strong> The model relies on meteorological proxies without direct inputs for real-time vehicular traffic, industrial factory output, or seasonal heating curtailments.</li>
 <li><strong>Single-Step Horizon:</strong> The primary formulation predicts <i>t</i>+1 hour; multi-step recursive forecasting over 24–72 hours suffers from accumulated error propagation.</li>
 </ol>
-<h3 id="93-future-scope">9.3 Future Scope</h3>
+<h3 id="83-future-scope"><a id="sec-8-3"></a>8.3 Future Scope</h3>
 <ol>
 <li><strong>Attention Mechanisms &amp; Transformers:</strong> Integrating temporal multi-head self-attention (e.g., Temporal Fusion Transformers or Informer) to weight past meteorological transitions dynamically.</li>
 <li><strong>Probabilistic &amp; Quantile Forecasting:</strong> Implementing Pinball / Quantile loss functions to predict 10th, 50th, and 90th percentile prediction bands.</li>
@@ -888,7 +1174,7 @@
 <li><strong>Physics-Informed Deep Learning (PINNs):</strong> Incorporating atmospheric advection-diffusion differential equations into the loss function to constrain predictions within physical conservation laws.</li>
 </ol>
 <hr />
-<h2 id="10-references">10. References</h2>
+<h2 id="9-references"><a id="sec-9"></a>9. References</h2>
 <ol>
 <li><strong>Liang, X., Zou, T., Guo, B., Li, S., Zhang, H., Zhang, S., Huang, H., &amp; Chen, S. X.</strong> (2015). Assessing Beijing's PM2.5 pollution: severity, weather impact, APEC and summer holiday effects. <em>Proceedings of the Royal Society A: Mathematical, Physical and Engineering Sciences</em>, 471(2182), 20150257. https://doi.org/10.1098/rspa.2015.0257</li>
 <li><strong>Zhang, S., Guo, B., Dong, A., He, J., Xu, Z., &amp; Chen, S. X.</strong> (2017). Cautionary tales on air-quality improvement in Beijing. <em>Proceedings of the Royal Society A: Mathematical, Physical and Engineering Sciences</em>, 473(2205), 20170457. https://doi.org/10.1098/rspa.2017.0457</li>
@@ -898,9 +1184,9 @@
 <li><strong>World Health Organization.</strong> (2021). <em>WHO global air quality guidelines: particulate matter (PM2.5 and PM10), ozone, nitrogen dioxide, sulfur dioxide and carbon monoxide</em>. World Health Organization.</li>
 </ol>
 <hr />
-<h2 id="11-appendix-code-section">11. Appendix (Code Section)</h2>
+<h2 id="10-appendix-code-section"><a id="sec-10"></a>10. Appendix (Code Section)</h2>
 <p>Below are the clean, executable core code modules utilized throughout this project.</p>
-<h3 id="appendix-a-dataset-inspection-quality-audit-01_dataset_inspectionipynb">Appendix A: Dataset Inspection &amp; Quality Audit (<code>01_dataset_inspection.ipynb</code>)</h3>
+<h3 id="101-dataset-inspection-quality-audit-01_dataset_inspectionipynb">10.1 Dataset Inspection &amp; Quality Audit (<code>01_dataset_inspection.ipynb</code>)</h3>
 <pre><code class="language-python">import os
 import glob
 import numpy as np
@@ -930,7 +1216,7 @@ df['datetime'] = pd.to_datetime(df['date'])
 is_monotonic = df['datetime'].is_monotonic_increasing
 print(f&quot;Chronological Monotonicity: {is_monotonic}&quot;)
 </code></pre>
-<h3 id="appendix-b-leakage-free-preprocessing-chronological-splitting-02_eda_and_preprocessingipynb">Appendix B: Leakage-Free Preprocessing &amp; Chronological Splitting (<code>02_eda_and_preprocessing.ipynb</code>)</h3>
+<h3 id="102-leakage-free-preprocessing-chronological-splitting-02_eda_and_preprocessingipynb">10.2 Leakage-Free Preprocessing &amp; Chronological Splitting (<code>02_eda_and_preprocessing.ipynb</code>)</h3>
 <pre><code class="language-python">import joblib
 from sklearn.preprocessing import MinMaxScaler
 
@@ -966,7 +1252,7 @@ joblib.dump(feature_scaler, 'models/scaler.pkl')
 joblib.dump(target_scaler, 'models/target_scaler.pkl')
 print(&quot;Successfully fitted and persisted zero-leakage scalers.&quot;)
 </code></pre>
-<h3 id="appendix-c-sliding-window-generation-lstm-model-construction-03_lstm_forecastingipynb">Appendix C: Sliding-Window Generation &amp; LSTM Model Construction (<code>03_lstm_forecasting.ipynb</code>)</h3>
+<h3 id="103-sliding-window-generation-lstm-model-construction-03_lstm_forecastingipynb">10.3 Sliding-Window Generation &amp; LSTM Model Construction (<code>03_lstm_forecasting.ipynb</code>)</h3>
 <pre><code class="language-python">import tensorflow as tf
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Input, LSTM, Dense, Dropout
@@ -1015,7 +1301,7 @@ history = model.fit(
 # Save model checkpoint
 model.save('models/best_lstm_model.keras')
 </code></pre>
-<h3 id="appendix-d-held-out-test-evaluation-metric-inversion">Appendix D: Held-Out Test Evaluation &amp; Metric Inversion</h3>
+<h3 id="104-held-out-test-evaluation-metric-inversion">10.4 Held-Out Test Evaluation &amp; Metric Inversion</h3>
 <pre><code class="language-python"># 1. Predict on Held-Out Test Data
 y_pred_scaled = model.predict(X_test)
 
