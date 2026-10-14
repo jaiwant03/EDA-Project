@@ -30,3 +30,10 @@ desktop.ini
 
 # Output files that can be regenerated (optional to track or ignore)
 # We track outputs/ and models/ for project evaluation deliverables
+
+# Temporary & Scratch Files
+scratch/
+scratch_profile/
+test_out.pdf
+*.log
+*.tmp
