@@ -622,6 +622,7 @@ def generate_html_document(md_path, page_map=None):
 </style>
 </head>
 <body>
+<div class="page-frame"></div>
 {html_body}
 </body>
 </html>

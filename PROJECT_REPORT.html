@@ -22,6 +22,20 @@
     * {
         box-sizing: border-box;
     }
+    
+    /* 4-Side Margin Box Frame for All Pages */
+    .page-frame {
+        position: fixed;
+        top: -8mm;
+        left: -8mm;
+        width: calc(100% + 16mm);
+        height: calc(100% + 16mm);
+        border: 1.5px solid #0a2540;
+        pointer-events: none;
+        z-index: 9999;
+        box-sizing: border-box;
+    }
+
     body {
         font-family: "Times New Roman", Times, "Liberation Serif", serif;
         color: #111827;
@@ -32,34 +46,32 @@
         padding: 0;
     }
     
-    /* Cover Page - Formal Academic Layout */
+    /* Cover Page - Professional Borderless Academic Layout */
     .cover-page {
         text-align: center;
-        padding: 60px 20px 30px 20px;
+        padding: 55px 20px 20px 20px;
         page-break-after: always;
         page-break-inside: avoid;
         font-family: "Times New Roman", Times, "Liberation Serif", serif;
     }
-    .cover-badge {
-        display: inline-block;
-        border: 2px solid #0a2540;
-        color: #0a2540;
-        background: #ffffff;
+    .cover-header-tag {
         font-family: "Times New Roman", Times, serif;
-        font-size: 11pt;
+        font-size: 13pt;
         font-weight: 700;
-        letter-spacing: 2.5px;
-        padding: 7px 22px;
-        border-radius: 4px;
-        margin-bottom: 30px;
+        letter-spacing: 3px;
+        color: #0a2540;
+        margin-top: 15px;
+        margin-bottom: 45px;
+        text-transform: uppercase;
     }
     .cover-title {
         font-family: "Times New Roman", Times, serif;
-        font-size: 24pt;
+        font-size: 23pt;
         font-weight: 800;
-        line-height: 1.35;
+        line-height: 1.38;
         color: #0a2540;
-        margin: 0 0 16px 0;
+        margin: 0 auto 18px auto;
+        max-width: 90%;
     }
     .cover-subtitle {
         font-family: "Times New Roman", Times, serif;
@@ -67,40 +79,50 @@
         color: #334155;
         font-style: italic;
         line-height: 1.45;
-        margin: 0 0 50px 0;
+        margin: 0 auto 65px auto;
+        max-width: 85%;
     }
-    .cover-details-card {
-        width: 100%;
-        max-width: 620px;
-        background: #ffffff;
-        border: 2px solid #0a2540;
-        border-radius: 6px;
-        padding: 4px;
-        margin: 0 auto;
+    .cover-meta-section {
+        margin-top: 55px;
     }
-    .cover-table {
-        width: 100%;
-        border-collapse: collapse;
-        text-align: left;
+    .cover-meta-intro {
         font-family: "Times New Roman", Times, serif;
+        font-size: 12pt;
+        font-style: italic;
+        color: #475569;
+        margin-bottom: 18px;
+        text-align: center;
     }
-    .cover-table td {
-        padding: 10px 14px;
-        border-bottom: 1px solid #e2e8f0;
-        font-size: 11pt;
+    .cover-meta-table {
+        margin: 0 auto !important;
+        width: auto !important;
+        border-collapse: collapse !important;
+        border: none !important;
+        border-bottom: none !important;
     }
-    .cover-table tr:last-child td {
-        border-bottom: none;
+    .cover-meta-table td {
+        border: none !important;
+        padding: 6px 8px !important;
+        font-family: "Times New Roman", Times, serif !important;
+        font-size: 11.5pt !important;
+        background: transparent !important;
     }
-    .cover-table .lbl {
+    .cover-meta-table .lbl {
+        font-weight: 600;
+        color: #334155;
+        text-align: left;
+        width: 150px;
+    }
+    .cover-meta-table .sep {
+        font-weight: 600;
+        color: #334155;
+        padding: 6px 4px !important;
+        text-align: center;
+        width: 15px;
+    }
+    .cover-meta-table .val {
+        text-align: left;
         color: #0a2540;
-        font-weight: 700;
-        width: 35%;
-        background: #f8fafc;
-        border-right: 1px solid #e2e8f0;
-    }
-    .cover-table .val {
-        color: #0f172a;
     }
 
     /* Table of Contents - Compact & Elegant (fits on 1 page) */
@@ -328,19 +350,41 @@
 </style>
 </head>
 <body>
+<div class="page-frame"></div>
 <div class="cover-page">
-    <div class="cover-badge">ACADEMIC PROJECT REPORT</div>
+    <p class="cover-header-tag">ACADEMIC PROJECT REPORT</p>
+    
     <h1 class="cover-title">Exploratory Data Analysis and LSTM-Based Time-Series Forecasting Using Multivariate and Univariate Data</h1>
     <p class="cover-subtitle">A Deep Learning Case Study on Urban Air Quality Dynamics and Atmospheric Particulate Matter (PM<sub>2.5</sub>) Modeling</p>
     
-    <div class="cover-details-card">
-        <table class="cover-table">
-            <tr><td class="lbl">Project Title</td><td class="val"><strong>Exploratory Data Analysis and LSTM-Based Time-Series Forecasting Using Multivariate and Univariate Data</strong></td></tr>
-            <tr><td class="lbl">Student Name</td><td class="val"><strong>Jaiwant Karrun SA</strong></td></tr>
-            <tr><td class="lbl">Roll Number</td><td class="val"><strong>24AD048</strong></td></tr>
-            <tr><td class="lbl">Department</td><td class="val"><strong>AD</strong></td></tr>
-            <tr><td class="lbl">Academic Year</td><td class="val"><strong>3rd Year</strong></td></tr>
-            <tr><td class="lbl">Date of Submission</td><td class="val"><strong>15/10/2026</strong></td></tr>
+    <div class="cover-meta-section">
+        <p class="cover-meta-intro">Submitted by</p>
+        <table class="cover-meta-table">
+            <tr>
+                <td class="lbl">Student Name</td>
+                <td class="sep">:</td>
+                <td class="val"><strong>Jaiwant Karrun SA</strong></td>
+            </tr>
+            <tr>
+                <td class="lbl">Roll Number</td>
+                <td class="sep">:</td>
+                <td class="val"><strong>24AD048</strong></td>
+            </tr>
+            <tr>
+                <td class="lbl">Department</td>
+                <td class="sep">:</td>
+                <td class="val"><strong>AD</strong></td>
+            </tr>
+            <tr>
+                <td class="lbl">Academic Year</td>
+                <td class="sep">:</td>
+                <td class="val"><strong>3rd Year</strong></td>
+            </tr>
+            <tr>
+                <td class="lbl">Date of Submission</td>
+                <td class="sep">:</td>
+                <td class="val"><strong>15/10/2026</strong></td>
+            </tr>
         </table>
     </div>
 </div>
