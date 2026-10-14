@@ -299,9 +299,9 @@ def generate_html_document(md_path, page_map=None):
     .page-frame {{
         position: fixed;
         top: -8mm;
+        bottom: -8mm;
         left: -8mm;
-        width: calc(100% + 16mm);
-        height: calc(100% + 16mm);
+        right: -8mm;
         border: 1.5px solid #0a2540;
         pointer-events: none;
         z-index: 9999;
@@ -372,7 +372,10 @@ def generate_html_document(md_path, page_map=None):
         border: none !important;
         border-bottom: none !important;
     }}
-    .cover-meta-table td {{
+    .cover-meta-table tr,
+    .cover-meta-table td,
+    .cover-meta-table tr:nth-child(even),
+    .cover-meta-table tr:nth-child(even) td {{
         border: none !important;
         padding: 6px 8px !important;
         font-family: "Times New Roman", Times, serif !important;
