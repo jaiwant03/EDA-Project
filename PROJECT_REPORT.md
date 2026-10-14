@@ -477,6 +477,3 @@ print(f"Test MSE : {test_mse:.3f}")
 print(f"Test RMSE: {test_rmse:.3f} ug/m3")
 print(f"Test R^2 : {test_r2:.4f}")
 ```
-
----
-*Report successfully generated and verified for course submission.*

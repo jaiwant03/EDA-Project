@@ -258,9 +258,9 @@ def generate_html_document(md_path, page_map=None):
         margin: 20mm 18mm 20mm 18mm;
         @bottom-right {{
             content: "Page " counter(page);
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            font-size: 8.5pt;
-            color: #64748b;
+            font-family: "Times New Roman", Times, "Liberation Serif", serif;
+            font-size: 9.5pt;
+            color: #475569;
         }}
     }}
     @page :first {{
@@ -272,72 +272,81 @@ def generate_html_document(md_path, page_map=None):
         box-sizing: border-box;
     }}
     body {{
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-        color: #1e293b;
+        font-family: "Times New Roman", Times, "Liberation Serif", serif;
+        color: #111827;
         background: #ffffff;
         line-height: 1.55;
-        font-size: 10pt;
+        font-size: 11pt;
         margin: 0;
         padding: 0;
     }}
     
-    /* Cover Page */
+    /* Cover Page - Formal Academic Layout */
     .cover-page {{
         text-align: center;
-        padding: 70px 20px 30px 20px;
+        padding: 60px 20px 30px 20px;
         page-break-after: always;
         page-break-inside: avoid;
+        font-family: "Times New Roman", Times, "Liberation Serif", serif;
     }}
     .cover-badge {{
         display: inline-block;
-        background: #0f172a;
-        color: #ffffff;
-        font-size: 9.5pt;
+        border: 2px solid #0a2540;
+        color: #0a2540;
+        background: #ffffff;
+        font-family: "Times New Roman", Times, serif;
+        font-size: 11pt;
         font-weight: 700;
         letter-spacing: 2.5px;
-        padding: 6px 18px;
-        border-radius: 20px;
-        margin-bottom: 25px;
+        padding: 7px 22px;
+        border-radius: 4px;
+        margin-bottom: 30px;
     }}
     .cover-title {{
-        font-size: 22pt;
+        font-family: "Times New Roman", Times, serif;
+        font-size: 24pt;
         font-weight: 800;
-        line-height: 1.3;
-        color: #0f172a;
-        margin: 0 0 15px 0;
+        line-height: 1.35;
+        color: #0a2540;
+        margin: 0 0 16px 0;
     }}
     .cover-subtitle {{
-        font-size: 12pt;
-        color: #475569;
+        font-family: "Times New Roman", Times, serif;
+        font-size: 13pt;
+        color: #334155;
         font-style: italic;
-        margin: 0 0 45px 0;
+        line-height: 1.45;
+        margin: 0 0 50px 0;
     }}
     .cover-details-card {{
         width: 100%;
-        max-width: 600px;
-        background: #f8fafc;
-        border: 2px solid #e2e8f0;
-        border-radius: 12px;
-        padding: 20px 26px;
+        max-width: 620px;
+        background: #ffffff;
+        border: 2px solid #0a2540;
+        border-radius: 6px;
+        padding: 4px;
         margin: 0 auto;
     }}
     .cover-table {{
         width: 100%;
         border-collapse: collapse;
         text-align: left;
+        font-family: "Times New Roman", Times, serif;
     }}
     .cover-table td {{
-        padding: 9px 12px;
+        padding: 10px 14px;
         border-bottom: 1px solid #e2e8f0;
-        font-size: 10.5pt;
+        font-size: 11pt;
     }}
     .cover-table tr:last-child td {{
         border-bottom: none;
     }}
     .cover-table .lbl {{
-        color: #64748b;
-        font-weight: 600;
-        width: 36%;
+        color: #0a2540;
+        font-weight: 700;
+        width: 35%;
+        background: #f8fafc;
+        border-right: 1px solid #e2e8f0;
     }}
     .cover-table .val {{
         color: #0f172a;
@@ -345,18 +354,20 @@ def generate_html_document(md_path, page_map=None):
 
     /* Table of Contents - Compact & Elegant (fits on 1 page) */
     .toc-page {{
-        padding: 20px 10px 10px 10px;
+        padding: 15px 10px 10px 10px;
         page-break-after: always;
         page-break-inside: avoid;
+        font-family: "Times New Roman", Times, serif;
     }}
     .toc-heading {{
+        font-family: "Times New Roman", Times, serif;
         font-size: 16pt;
         font-weight: 800;
-        color: #0f172a;
-        border-bottom: 2.5px solid #0284c7;
-        padding-bottom: 5px;
+        color: #0a2540;
+        border-bottom: 2px solid #0a2540;
+        padding-bottom: 4px;
         margin-top: 0;
-        margin-bottom: 14px;
+        margin-bottom: 12px;
         text-align: left;
     }}
     .toc-list {{
@@ -367,23 +378,24 @@ def generate_html_document(md_path, page_map=None):
         display: flex;
         align-items: baseline;
         text-decoration: none;
-        color: #0f172a;
-        margin-bottom: 2.5px;
-        font-size: 8.8pt;
-        line-height: 1.32;
+        color: #111827;
+        margin-bottom: 2px;
+        font-family: "Times New Roman", Times, serif;
+        font-size: 9.2pt;
+        line-height: 1.34;
     }}
     .toc-entry:hover {{
-        color: #0284c7;
+        color: #0369a1;
     }}
     .toc-entry.main {{
         font-weight: 700;
-        color: #0f172a;
-        margin-top: 3.5px;
-        font-size: 9.1pt;
+        color: #0a2540;
+        margin-top: 4px;
+        font-size: 9.6pt;
     }}
     .toc-entry.sub {{
-        padding-left: 18px;
-        font-size: 8.3pt;
+        padding-left: 20px;
+        font-size: 8.8pt;
         font-weight: 400;
         color: #334155;
         margin-bottom: 1.5px;
@@ -393,41 +405,46 @@ def generate_html_document(md_path, page_map=None):
     }}
     .toc-dots {{
         flex-grow: 1;
-        border-bottom: 1px dotted #94a3b8;
+        border-bottom: 1px dotted #64748b;
         margin: 0 8px;
         position: relative;
         top: -3px;
     }}
     .toc-page-num {{
         flex-shrink: 0;
-        font-weight: 600;
-        color: #0369a1;
-        min-width: 20px;
+        font-family: "Times New Roman", Times, serif;
+        font-weight: 700;
+        color: #0a2540;
+        min-width: 22px;
         text-align: right;
     }}
 
-    /* Section Headings */
+    /* Section Headings - Times New Roman Academic Styling */
     h2 {{
-        font-size: 14pt;
+        font-family: "Times New Roman", Times, serif;
+        font-size: 15pt;
         font-weight: 700;
-        color: #0f172a;
-        border-bottom: 2px solid #0284c7;
-        padding-bottom: 5px;
-        margin-top: 28px;
-        margin-bottom: 12px;
+        color: #0a2540;
+        border-bottom: 1.5px solid #0a2540;
+        padding-bottom: 4px;
+        margin-top: 26px;
+        margin-bottom: 10px;
         page-break-after: avoid;
     }}
     h3 {{
-        font-size: 11.5pt;
-        font-weight: 600;
-        color: #0369a1;
+        font-family: "Times New Roman", Times, serif;
+        font-size: 12.5pt;
+        font-weight: 700;
+        color: #1e3a5f;
         margin-top: 18px;
-        margin-bottom: 8px;
+        margin-bottom: 6px;
         page-break-after: avoid;
     }}
     h4 {{
-        font-size: 10pt;
-        font-weight: 600;
+        font-family: "Times New Roman", Times, serif;
+        font-size: 11pt;
+        font-weight: 700;
+        font-style: italic;
         color: #334155;
         margin-top: 14px;
         margin-bottom: 6px;
@@ -439,13 +456,15 @@ def generate_html_document(md_path, page_map=None):
         text-align: justify;
     }}
 
-    /* Tables */
+    /* Tables - Classic Academic Border & Alignment */
     table {{
         width: 100%;
         border-collapse: collapse;
         margin: 12px 0 16px 0;
-        font-size: 8.8pt;
+        font-family: "Times New Roman", Times, serif;
+        font-size: 9.5pt;
         page-break-inside: avoid;
+        border-bottom: 1.5px solid #0a2540;
     }}
     th, td {{
         border: 1px solid #cbd5e1;
@@ -454,11 +473,13 @@ def generate_html_document(md_path, page_map=None):
     }}
     th {{
         background: #f1f5f9;
-        color: #0f172a;
+        color: #0a2540;
         font-weight: 700;
+        border-top: 1.5px solid #0a2540;
+        border-bottom: 1.5px solid #0a2540;
     }}
     tr:nth-child(even) {{
-        background: #f8fafc;
+        background: #fafbfc;
     }}
 
     /* Figures */
@@ -473,12 +494,13 @@ def generate_html_document(md_path, page_map=None):
         height: auto;
         object-fit: contain;
         border: 1px solid #cbd5e1;
-        border-radius: 6px;
+        border-radius: 4px;
     }}
     .figure-caption {{
-        font-size: 8.5pt;
-        color: #64748b;
-        margin-top: 5px;
+        font-family: "Times New Roman", Times, serif;
+        font-size: 9.5pt;
+        color: #475569;
+        margin-top: 6px;
         font-style: italic;
         text-align: center;
     }}
@@ -486,11 +508,11 @@ def generate_html_document(md_path, page_map=None):
     /* Math Blocks */
     .math-block {{
         background: #f8fafc;
-        border-left: 3.5px solid #0284c7;
+        border-left: 3.5px solid #0a2540;
         padding: 7px 12px;
         margin: 8px 0;
-        font-family: "Cambria Math", "DejaVu Serif", serif;
-        font-size: 9.8pt;
+        font-family: "Cambria Math", "Times New Roman", Times, serif;
+        font-size: 10.2pt;
         color: #0f172a;
         page-break-inside: avoid;
     }}
@@ -499,18 +521,18 @@ def generate_html_document(md_path, page_map=None):
     pre {{
         background: #f8fafc;
         border: 1px solid #e2e8f0;
-        border-radius: 6px;
+        border-radius: 4px;
         padding: 10px 12px;
-        font-family: "Consolas", "Fira Code", monospace;
-        font-size: 8pt;
-        line-height: 1.4;
+        font-family: "Consolas", "Courier New", monospace;
+        font-size: 8.2pt;
+        line-height: 1.42;
         overflow-x: auto;
         margin: 10px 0;
         page-break-inside: avoid;
         color: #0f172a;
     }}
     code {{
-        font-family: "Consolas", "Fira Code", monospace;
+        font-family: "Consolas", "Courier New", monospace;
         font-size: 8.5pt;
         background: #f1f5f9;
         padding: 1px 4px;
@@ -563,9 +585,12 @@ def generate_html_document(md_path, page_map=None):
 
 def run_chrome_pdf(html_path, pdf_path, browser_exe):
     html_url = "file:///" + os.path.abspath(html_path).replace("\\", "/")
+    scratch_dir = os.path.join(os.path.dirname(os.path.abspath(html_path)), "scratch_profile")
+    os.makedirs(scratch_dir, exist_ok=True)
     cmd = [
         browser_exe,
         "--headless",
+        f"--user-data-dir={scratch_dir}",
         "--disable-gpu",
         "--no-sandbox",
         "--allow-file-access-from-files",
