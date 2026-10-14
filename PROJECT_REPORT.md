@@ -1,4 +1,4 @@
-# ACADEMIC PROJECT REPORT
+# Project Report
 
 # **Exploratory Data Analysis and LSTM-Based Time-Series Forecasting Using Multivariate and Univariate Data**
 

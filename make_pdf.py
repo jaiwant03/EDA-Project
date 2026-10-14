@@ -225,7 +225,7 @@ def generate_html_document(md_path, page_map=None):
 
     # Cover Page
     cover_html = """<div class="cover-page">
-    <p class="cover-header-tag">ACADEMIC PROJECT REPORT</p>
+    <p class="cover-header-tag">Project Report</p>
     
     <h1 class="cover-title">Exploratory Data Analysis and LSTM-Based Time-Series Forecasting Using Multivariate and Univariate Data</h1>
     <p class="cover-subtitle">A Deep Learning Case Study on Urban Air Quality Dynamics and Atmospheric Particulate Matter (PM<sub>2.5</sub>) Modeling</p>
@@ -311,13 +311,13 @@ def generate_html_document(md_path, page_map=None):
     }}
     .cover-header-tag {{
         font-family: "Times New Roman", Times, serif;
-        font-size: 13pt;
+        font-size: 14pt;
         font-weight: 700;
-        letter-spacing: 3px;
+        letter-spacing: 1.5px;
         color: #0a2540;
         margin-top: 15px;
         margin-bottom: 45px;
-        text-transform: uppercase;
+        text-align: center;
     }}
     .cover-title {{
         font-family: "Times New Roman", Times, serif;
